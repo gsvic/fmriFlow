@@ -2,7 +2,8 @@ import logging
 from api import getContext
 from thunder.clustering.kmeans import KMeans
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s',
+                    filename="/home/vic/Dev/fMRI/fmriFlow/output")
 
 
 class Workflow(object):
@@ -15,8 +16,8 @@ class Workflow(object):
         [Input Data] => [Parent Operator] => [Result] => [Child Operator] => ....
 
     """
-    def __init__(self, dataSource):
-        self.context = getContext()
+    def __init__(self, dataSource, sc):
+        self.context = getContext(sc)
         self.root = DataSource(dataSource, self.context)
         self.last = self.root
 
@@ -27,6 +28,7 @@ class Workflow(object):
         self.last.child = node
         self.last = node
 
+    # Clustering with K-Means
     def clustering(self, k):
         self.addNode(NeuronClustering(self.last, k))
         return self
@@ -36,13 +38,16 @@ class Workflow(object):
         self.addNode(FeatureExtractor(self.last))
         return self
 
+    # Data visualization with matplotlib
     def visualize(self):
         self.addNode(Visualizer(self.last))
         return self
 
+    # Workflow execution
     def execute(self):
         self.root.doExecute()
 
+    # Returns the workflow execution plan as a string
     def explain(self):
         cur = self.root
         st = ''
@@ -64,6 +69,8 @@ class WorkflowNode(object):
     def doExecute(self):
         logging.info("Executing: %s"%(self.name))
         self.execute()
+        if self.child:
+            self.child.doExecute()
 
     def execute(self):
         logging.info("Executing: %s"%(self.name))
@@ -84,7 +91,7 @@ class DataSource(WorkflowNode):
         self.parent = None
         self.dataPath = data
         self.input = None
-        self.result = context.loadExample(data)
+        self.result = context.loadImages(data)
 
 
 class FeatureExtractor(WorkflowNode):
@@ -95,19 +102,19 @@ class FeatureExtractor(WorkflowNode):
 
     def execute(self):
         self.result = self.parent.result.toTimeSeries()
-        self.child.execute()
+        #self.child.execute()
 
 
 class NeuronClustering(WorkflowNode):
     def __init__(self, parent, k):
         super(NeuronClustering, self).__init__(parent)
-        self.name = "Custering"
+        self.name = "Clustering"
         self.result = 'Centers'
         self.k = k
 
     def execute(self):
         model = KMeans(self.k)
-        self.result = model.fit(self.parent.result)
+        self.result = model.fit(self.parent.result).centers
 
 
 class Visualizer(WorkflowNode):
@@ -122,5 +129,9 @@ class Visualizer(WorkflowNode):
         from matplotlib.colors import ListedColormap
         cmapCat = ListedColormap(sns.color_palette("hls", 10), name='from_list')
         plt.gca().set_color_cycle(cmapCat.colors)
-        plt.plot(self.parent.result.subset(nsamples=100, thresh=0.9).T)
+
+        if self.parent.name is "FeatureExtractor":
+            plt.plot(self.parent.result.subset(nsamples=10, thresh=0.9).T)
+        elif self.parent.name is "Clustering":
+            plt.plot(self.parent.result.T)
         plt.show()
