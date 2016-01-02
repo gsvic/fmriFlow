@@ -1,5 +1,5 @@
 import logging
-from utils import getContext
+from thunder import ThunderContext
 from thunder.clustering.kmeans import KMeans
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s',
@@ -17,7 +17,7 @@ class Workflow(object):
 
     """
     def __init__(self, dataSource, sc):
-        self.context = getContext(sc)
+        self.context = ThunderContext(sc)
         self.root = DataSource(dataSource, self.context)
         self.last = self.root
 
