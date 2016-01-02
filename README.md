@@ -10,3 +10,7 @@ https://github.com/hanke/gumpdata
 http://klab.smpp.northwestern.edu/wiki/images/9/9b/Big_data_klab.pdf
 
 ## Neuroimaging Background
+### NifTi Data Format
+Neuroimaging Informatics Technology Initiative <br>
+http://nifti.nimh.nih.gov/ <br>
+http://nipy.org/nibabel/
