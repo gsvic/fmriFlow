@@ -1,9 +1,9 @@
 import logging
-from api import getContext
+from utils import getContext
 from thunder.clustering.kmeans import KMeans
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s',
-                    filename="/home/vic/Dev/fMRI/fmriFlow/output")
+                    filename="./fmriFlow.log")
 
 
 class Workflow(object):
@@ -49,6 +49,7 @@ class Workflow(object):
 
     # Returns the workflow execution plan as a string
     def explain(self):
+        logging.info("Explain")
         cur = self.root
         st = ''
         while cur:
@@ -73,9 +74,7 @@ class WorkflowNode(object):
             self.child.doExecute()
 
     def execute(self):
-        logging.info("Executing: %s"%(self.name))
-        if self.child:
-            self.child.execute()
+        pass
 
     def hasNext(self):
         pass
