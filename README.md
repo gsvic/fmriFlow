@@ -44,6 +44,9 @@ In this section we discuss in detail how to install and run an fmriFlow applicat
 ### fmriFlow Installation
 Just clone this repository: <code>git clone git@github.com:gsvic/fmriFlow.git</code>
 
+### Run the provided example
+In order to run an application you just need to define the workflow in a Python file and submit it to Spark. To run the provided test.py you just type: <code>spark-submit test.py</code>
+
 ## Datasets
 http://psydata.ovgu.de/forrest_gump/
 
