@@ -40,6 +40,8 @@ fMRI Data Analysis Workflows with Apache Spark and Thunder
   </li>
 </ol>
 
+### fmriFlow Installation
+Just clone this repository: <code>git clone git@github.com:gsvic/fmriFlow.git</code>
 
 ## Datasets
 http://psydata.ovgu.de/forrest_gump/
