@@ -2,6 +2,7 @@
 fMRI Data Analysis Workflows with Apache Spark and Thunder
 
 ## User Guide
+In this section we discuss in detail how to install and run an fmriFlow application step-by-step.
 ### Apache Spark Installation
 <ol>
   <li>
