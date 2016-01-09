@@ -1,5 +1,5 @@
 # fmriFlow 
-fMRI Data Analysis Workflows with Apache Spark and Thunder
+fMRI Data Analysis Workflows with Apache Spark and Thunder. 
 
 ## User Guide
 In this section we discuss in detail how to install and run an fmriFlow application step-by-step.
@@ -57,3 +57,7 @@ http://klab.smpp.northwestern.edu/wiki/images/9/9b/Big_data_klab.pdf
 Neuroimaging Informatics Technology Initiative <br>
 http://nifti.nimh.nih.gov/ <br>
 http://nipy.org/nibabel/
+
+###Acknowlegments
+This project was developed for the purposes of Digital Image Processing (HY620) Course of Dept. of Informatics at Ionian University.
+http://di.ionio.gr/en/component/content/article/19-modules/semester-5/58-digital-image-processing.html
