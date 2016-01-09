@@ -44,20 +44,25 @@ In this section we discuss in detail how to install and run an fmriFlow applicat
 ### fmriFlow Installation
 Just clone this repository: <code>git clone git@github.com:gsvic/fmriFlow.git</code>
 
-## Datasets
+### Run the provided example
+In order to run an application you just need to define the workflow in a Python file and submit it to Spark. To run the provided test.py you just type: <code>spark-submit test.py</code>. In this example we use sample input data from Thunder-Project.
+
+## Additional Info
+
+### Datasets
 http://psydata.ovgu.de/forrest_gump/
 
-## Links
+### Links
 http://studyforrest.org/7tmusicdata.html
 https://github.com/hanke/gumpdata
 http://klab.smpp.northwestern.edu/wiki/images/9/9b/Big_data_klab.pdf
 
-## Neuroimaging Background
-### NifTi Data Format
+### Neuroimaging Background
+#### NifTi Data Format
 Neuroimaging Informatics Technology Initiative <br>
 http://nifti.nimh.nih.gov/ <br>
 http://nipy.org/nibabel/
 
-###Acknowlegments
+##Acknowlegments
 This project was developed for the purposes of Digital Image Processing (HY620) Course of Dept. of Informatics at Ionian University.
 http://di.ionio.gr/en/component/content/article/19-modules/semester-5/58-digital-image-processing.html
