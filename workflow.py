@@ -3,7 +3,7 @@ from thunder import ThunderContext
 from thunder.clustering.kmeans import KMeans
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s',
-                    filename="./fmriFlow.log")
+                    filename="logs/fmriFlow.log")
 
 
 class Workflow(object):
@@ -43,6 +43,11 @@ class Workflow(object):
         self.addNode(Visualizer(self.last))
         return self
 
+    # Data visualization (brain)
+    def visualizeBrain(self, slice=0):
+        self.addNode(BrainVisualizer(self.last, self.root, slice))
+        return self
+
     # Workflow execution
     def execute(self):
         self.root.doExecute()
@@ -72,6 +77,8 @@ class WorkflowNode(object):
         self.execute()
         if self.child:
             self.child.doExecute()
+        else:
+            logging.info("Workflow execution completed")
 
     def execute(self):
         pass
@@ -90,18 +97,20 @@ class DataSource(WorkflowNode):
         self.parent = None
         self.dataPath = data
         self.input = None
-        self.result = context.loadImages(data)
+        if type(data) == str:
+            self.result = context.loadImages(data, inputFormat='tif')
+        else:
+            self.result = context.loadImagesFromArray(data)
 
 
 class FeatureExtractor(WorkflowNode):
     def __init__(self, parent):
         super(FeatureExtractor, self).__init__(parent)
         self.name = "FeatureExtractor"
-        self.result = 'Features'
+        #self.result = 'Features'
 
     def execute(self):
         self.result = self.parent.result.toTimeSeries()
-        #self.child.execute()
 
 
 class NeuronClustering(WorkflowNode):
@@ -113,6 +122,7 @@ class NeuronClustering(WorkflowNode):
 
     def execute(self):
         model = KMeans(self.k)
+        print "RESULT: ",self.parent.result
         self.result = model.fit(self.parent.result).centers
 
 
@@ -134,3 +144,26 @@ class Visualizer(WorkflowNode):
         elif self.parent.name is "Clustering":
             plt.plot(self.parent.result.T)
         plt.show()
+
+        self.result = self.parent.result
+
+
+class BrainVisualizer(WorkflowNode):
+    def __init__(self, parent, root, slice):
+        super(BrainVisualizer, self).__init__(parent)
+        self.name = "Brain"
+        self.result = self.parent.result
+        self.root = root
+        self.slice = slice
+
+    def execute(self):
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+        from matplotlib.colors import ListedColormap
+        cmapCat = ListedColormap(sns.color_palette("hls", 10), name='from_list')
+        plt.gca().set_color_cycle(cmapCat.colors)
+
+        plt.imshow(self.root.result.first()[1][:, :, self.slice])
+        plt.show()
+
+        self.result = self.parent.result

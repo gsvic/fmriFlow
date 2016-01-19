@@ -1,17 +1,15 @@
 import os.path as pth
 from workflow import Workflow
 import thunder
+import nibabel as nbl
+
 from pyspark import SparkContext
 
 sc = SparkContext()
-datapath = pth.join(pth.dirname(pth.realpath(thunder.__file__)), 'utils/data/mouse/images')
 
-flow1 = Workflow(datapath,sc).extract().clustering(k=5).visualize()
-flow2 = Workflow(datapath, sc).extract().visualize()
+datapath = pth.join(pth.dirname(pth.realpath(thunder.__file__)), 'utils/data/fish/images')
+#data = nbl.load("/home/user/Dev/fMRI/bold_dico.nii").get_data()
 
-print flow1.explain()
-print flow2.explain()
+flow1 = Workflow(datapath, sc).extract().visualize().clustering(k=5).visualize().visualizeBrain()
 
 flow1.execute()
-
-print "END"
