@@ -39,8 +39,8 @@ class Workflow(object):
         return self
 
     # Data visualization with matplotlib
-    def visualize(self):
-        self.addNode(Visualizer(self.last))
+    def visualize(self, nsamples=20):
+        self.addNode(Visualizer(self.last, nsamples=nsamples))
         return self
 
     # Data visualization (brain)
@@ -58,7 +58,7 @@ class Workflow(object):
         cur = self.root
         st = ''
         while cur:
-            st += "OPERATOR: %s => INPUT [%s] => RESULT [%s]\n"%(cur.name, type(cur.input), type(cur.result))
+            st += "OPERATOR: %s => INPUT [%s] => RESULT [%s]\n"%(cur.name, type(cur.input), cur.result)
             cur = cur.child
 
         return st
@@ -107,7 +107,7 @@ class FeatureExtractor(WorkflowNode):
     def __init__(self, parent):
         super(FeatureExtractor, self).__init__(parent)
         self.name = "FeatureExtractor"
-        #self.result = 'Features'
+        self.result = 'Features'
 
     def execute(self):
         self.result = self.parent.result.toTimeSeries()
@@ -123,14 +123,16 @@ class NeuronClustering(WorkflowNode):
     def execute(self):
         model = KMeans(self.k)
         print "RESULT: ",self.parent.result
-        self.result = model.fit(self.parent.result).centers
+        self.result = model.fit(self.parent.result)
+        print type
 
 
 class Visualizer(WorkflowNode):
-    def __init__(self, parent):
+    def __init__(self, parent, nsamples=20):
         super(Visualizer, self).__init__(parent)
         self.name = "Visualizer"
         self.result = self.parent.result
+        self.nsamples=nsamples
 
     def execute(self):
         import seaborn as sns
@@ -140,9 +142,9 @@ class Visualizer(WorkflowNode):
         plt.gca().set_color_cycle(cmapCat.colors)
 
         if self.parent.name is "FeatureExtractor":
-            plt.plot(self.parent.result.subset(nsamples=10, thresh=0.9).T)
+            plt.plot(self.parent.result.subset(nsamples=self.nsamples, thresh=0.9).T)
         elif self.parent.name is "Clustering":
-            plt.plot(self.parent.result.T)
+            plt.plot(self.parent.result.centers.T)
         plt.show()
 
         self.result = self.parent.result
