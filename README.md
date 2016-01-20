@@ -47,6 +47,27 @@ Just clone this repository: <code>git clone git@github.com:gsvic/fmriFlow.git</c
 ### Run the provided example
 In order to run an application you just need to define the workflow in a Python file and submit it to Spark. To run the provided test.py you just type: <code>spark-submit test.py</code>. In this example we use sample input data from Thunder-Project.
 
+### Define a Workflow
+A new workflow can be defined in a Python script just like the example above. In detail:
+<ol>
+  <li>
+    Define the workflow by providing a Spark Context and an input path(.nii file)
+    <code>flow1 = Workflow(datapath, sc)</code>
+  </li>
+  <li>
+    Add some operators
+    <code>flow1 = Workflow(datapath, sc).extract().clustering(k=5).visualize()</code>
+  </li>
+  <li>
+    Execute the workflow
+    <code>flow1.execute()</code>
+  </li>
+  <li>
+    Or print the execution plan
+    <code>print flow1.explain()</code>
+  </li>
+</ol>
+
 ## Additional Info
 
 ### Datasets
