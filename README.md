@@ -84,6 +84,11 @@ It is also possible to execute operations via bash using the scipt run.sh in the
   <li><code>--model</code> a serialized model from previous execution</li>
   <li><code>--vector</code> a neuron-vector to be given as input to the model above in order to compute its corresponding cluster</li>
 </ul>
+Examples
+<ul>
+  <li><code>sbin/run.sh --path ../bold_dico.nii --operator ts</code>: Runs a K-Means clustering on the input dataset and serializes it in disk</li>
+  <li><code>sbin/run.sh --operator pr --model model --vector "[...]"</code>: Predicts the cluster center of the input vector using the input model</li>
+</ul>
 
 
 ## Additional Info
