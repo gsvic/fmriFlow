@@ -47,6 +47,50 @@ Just clone this repository: <code>git clone git@github.com:gsvic/fmriFlow.git</c
 ### Run the provided example
 In order to run an application you just need to define the workflow in a Python file and submit it to Spark. To run the provided test.py you just type: <code>spark-submit test.py</code>. In this example we use sample input data from Thunder-Project.
 
+### Define and execute a Workflow
+A new workflow can be defined in a Python script just like the example above. In detail:
+<ol>
+  <li>
+    Define the workflow by providing a Spark Context and an input path(.nii file)
+    <code>flow1 = Workflow(datapath, sc)</code>
+  </li>
+  <li>
+    Add some operators
+    <code>flow1 = Workflow(datapath, sc).extract().clustering(k=5).visualize()</code>
+  </li>
+  <li>
+    Execute the workflow
+    <code>flow1.execute()</code>
+  </li>
+  <li>
+    Or print the execution plan
+    <code>print flow1.explain()</code>
+  </li>
+  </ol>
+  Currently the available operators are:
+  <ul>
+    <li>extract(): Extracts features into time series</li>
+    <li>clustering(k): K-Means clustering</li>
+    <li>visualizeBrain(): Visualizes a specific slice of the brain</li>
+    <li>visualize(nsamples): Visualizes nsamples data points</li>
+  </ul>
+
+### Bash Commands
+It is also possible to execute operations via bash using the scipt run.sh in the /scripts folder with the following parameters:
+<ul>
+  <li><code>--path</code> the input path</li>
+  <li><code>--operator</code> the operator</li>
+  <li><code>--path</code> the input path</li>
+  <li><code>--model</code> a serialized model from previous execution</li>
+  <li><code>--vector</code> a neuron-vector to be given as input to the model above in order to compute its corresponding cluster</li>
+</ul>
+Examples
+<ul>
+  <li><code>sbin/run.sh --path ../bold_dico.nii --operator ts</code>: Runs a K-Means clustering on the input dataset and serializes it in disk</li>
+  <li><code>sbin/run.sh --operator pr --model model --vector "[...]"</code>: Predicts the cluster center of the input vector using the input model</li>
+</ul>
+
+
 ## Additional Info
 
 ### Datasets
