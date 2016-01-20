@@ -75,6 +75,16 @@ A new workflow can be defined in a Python script just like the example above. In
     <li>visualize(nsamples): Visualizes nsamples data points</li>
   </ul>
 
+### Bash Commands
+It is also possible to execute operations via bash using the scipt run.sh in the /scripts folder with the following parameters:
+<ul>
+  <li><code>--path</code> the input path</li>
+  <li><code>--operator</code> the operator</li>
+  <li><code>--path</code> the input path</li>
+  <li><code>--model</code> a serialized model from previous execution</li>
+  <li><code>--vector</code> a neuron-vector to be given as input to the model above in order to compute its corresponding cluster</li>
+</ul>
+
 
 ## Additional Info
 
