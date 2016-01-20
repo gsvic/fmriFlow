@@ -47,7 +47,7 @@ Just clone this repository: <code>git clone git@github.com:gsvic/fmriFlow.git</c
 ### Run the provided example
 In order to run an application you just need to define the workflow in a Python file and submit it to Spark. To run the provided test.py you just type: <code>spark-submit test.py</code>. In this example we use sample input data from Thunder-Project.
 
-### Define a Workflow
+### Define and execute a Workflow
 A new workflow can be defined in a Python script just like the example above. In detail:
 <ol>
   <li>
@@ -66,7 +66,15 @@ A new workflow can be defined in a Python script just like the example above. In
     Or print the execution plan
     <code>print flow1.explain()</code>
   </li>
-</ol>
+  </ol>
+  Currently the available operators are:
+  <ul>
+    <li>extract(): Extracts features into time series</li>
+    <li>clustering(k): K-Means clustering</li>
+    <li>visualizeBrain(): Visualizes a specific slice of the brain</li>
+    <li>visualize(nsamples): Visualizes nsamples data points</li>
+  </ul>
+
 
 ## Additional Info
 
