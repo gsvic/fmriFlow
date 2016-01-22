@@ -1,5 +1,6 @@
 import logging
 from thunder import ThunderContext
+from thunder import Colorize
 from thunder.clustering.kmeans import KMeans
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s',
@@ -40,7 +41,7 @@ class Workflow(object):
 
     # Data visualization with matplotlib
     def visualize(self, nsamples=20):
-        self.addNode(Visualizer(self.last, nsamples=nsamples))
+        self.addNode(Visualizer(self.last,self.root, nsamples=nsamples))
         return self
 
     # Data visualization (brain)
@@ -65,11 +66,12 @@ class Workflow(object):
 
 
 class WorkflowNode(object):
-    def __init__(self, parent):
+    def __init__(self, parent, root=None):
         self.parent = parent
         self.name = None
         self.child = None
         self.input = parent.result
+        self.root = root
         self.result = None
 
     def doExecute(self):
@@ -98,7 +100,14 @@ class DataSource(WorkflowNode):
         self.dataPath = data
         self.input = None
         if type(data) == str:
-            self.result = context.loadImages(data, inputFormat='tif')
+            try:
+                self.result = context.loadImages(data, inputFormat='tif')
+            except Exception as e:
+                logging.info(e)
+            try:
+                self.result = context.loadImages(data)
+            except Exception as e:
+                logging.info(e)
         else:
             self.result = context.loadImagesFromArray(data)
 
@@ -128,8 +137,8 @@ class NeuronClustering(WorkflowNode):
 
 
 class Visualizer(WorkflowNode):
-    def __init__(self, parent, nsamples=20):
-        super(Visualizer, self).__init__(parent)
+    def __init__(self, parent, root, nsamples=20):
+        super(Visualizer, self).__init__(parent, root)
         self.name = "Visualizer"
         self.result = self.parent.result
         self.nsamples=nsamples
@@ -144,6 +153,16 @@ class Visualizer(WorkflowNode):
         if self.parent.name is "FeatureExtractor":
             plt.plot(self.parent.result.subset(nsamples=self.nsamples, thresh=0.9).T)
         elif self.parent.name is "Clustering":
+            """labels = self.parent.result.predict(self.root.result).pack()
+            brainmap = Colorize(cmap=cmapCat).transform(labels[:,:,0])
+            plt.imshow(brainmap)
+            plt.show()"""
+            labels = self.parent.result.predict(self.parent.parent.result).pack()
+            brainmap = Colorize(cmap=cmapCat).transform(labels[:,:,0])
+            plt.figure(1)
+            plt.imshow(brainmap)
+            plt.figure(2)
+            #plt.show()
             plt.plot(self.parent.result.centers.T)
         plt.show()
 

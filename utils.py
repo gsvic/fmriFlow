@@ -5,15 +5,14 @@ import ast
 import matplotlib.pyplot as plt
 
 
+def readNifti(path):
+    return nbl.load(path).get_data()
+
+
 def visualizeNifti(path, t, slice):
     data = nbl.load(path).get_data()
     n = len(data[0,0,0,:])
-    series = []
-
-    for i in range(0, n):
-        series.append(data[:,:,:,i])
-
-    print type(series[10])
+    series = [data[:,:,:,i] for i in range(0,n)]
 
     plt.imshow(series[t][slice,:,:])
     plt.show()
