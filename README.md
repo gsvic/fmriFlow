@@ -76,7 +76,9 @@ A new workflow can be defined in a Python script just like the example above. In
   </ul>
 
 ### Bash Commands
-It is also possible to execute operations via bash using the scipt run.sh in the /scripts folder with the following parameters:
+It is also possible to execute operations via bash using the scripts in the /scripts folder with the following parameters:
+<br>
+<code>run.sh</code>
 <ul>
   <li><code>--path</code> the input path</li>
   <li><code>--operator</code> the operator</li>
@@ -86,8 +88,14 @@ It is also possible to execute operations via bash using the scipt run.sh in the
 </ul>
 Examples
 <ul>
-  <li><code>sbin/run.sh --path ../bold_dico.nii --operator ts</code>: Runs a K-Means clustering on the input dataset and serializes it in disk</li>
-  <li><code>sbin/run.sh --operator pr --model model --vector "[...]"</code>: Predicts the cluster center of the input vector using the input model</li>
+  <li>Train and save a model: <code>sbin/run.sh --path ../bold_dico.nii --operator ts</code>: Runs a K-Means clustering on the input dataset and serializes it in disk</li>
+  <li>Load a trained model: <code>sbin/run.sh --operator pr --model model --vector "[...]"</code>: Predicts the cluster center of the input vector using the input model</li>
+</ul>
+Other Scripts
+<ul>
+  <li><code>visualizeBrain.sh $INPUT</code></li>
+  <li><code>visualizeData.sh $INPUT $NSAMPLES</code></li>
+  <li><code>visualizeClusters.sh $INPUT $K</code></li>
 </ul>
 
 
