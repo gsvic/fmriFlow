@@ -109,14 +109,17 @@ http://psydata.ovgu.de/forrest_gump/
 
 ### Links
 http://studyforrest.org/7tmusicdata.html
+<br>
 https://github.com/hanke/gumpdata
+<br>
 http://klab.smpp.northwestern.edu/wiki/images/9/9b/Big_data_klab.pdf
 
 ### Neuroimaging Background
 #### NifTi Data Format
-Neuroimaging Informatics Technology Initiative <br>
-http://nifti.nimh.nih.gov/ <br>
-http://nipy.org/nibabel/
+Neuroimaging Informatics Technology Initiative
+http://nifti.nimh.nih.gov 
+<br>
+http://nipy.org/nibabel
 
 ##Acknowlegments
 This project was developed for the purposes of Digital Image Processing (HY620) Course of Dept. of Informatics at Ionian University.
