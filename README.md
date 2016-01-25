@@ -101,9 +101,8 @@ Other Scripts
 
 ## Additional Info
 
-###
-Understanding fMRI Data
-https://www.youtube.com/watch?v=oBDpv2PQX9k
+###Understanding fMRI Data
+http://www.biostat.jhsph.edu/~mlindqui/Papers/STS282.pdf
 
 ### Datasets
 http://psydata.ovgu.de/forrest_gump/
