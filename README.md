@@ -122,6 +122,6 @@ http://nifti.nimh.nih.gov
 http://nipy.org/nibabel
 
 ##Acknowlegments
-This project was developed for the purposes of Digital Image Processing (HY620) Course of Dept. of Informatics at Ionian University under the supervision of <a href="http://users.ionio.gr/~karydis/">Dr. Ioannis Karydis</a>
+This project was developed for the purposes of Digital Image Processing (HY620) Course of Dept. of Informatics at Ionian University under the supervision of <a href="http://users.ionio.gr/~karydis/">Dr. Ioannis Karydis</a>.
 <br>
 http://di.ionio.gr/en/component/content/article/19-modules/semester-5/58-digital-image-processing.html
